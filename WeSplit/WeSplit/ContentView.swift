@@ -11,15 +11,17 @@ struct ContentView: View {
     
     @State private var checkAmount: Double = .init()
     @State private var numberOfPeople: Int = 0
-    @State private var tipPercentage: Int = 20
+    @State private var tipPercentage: Double = 20
     @FocusState private var isFocused: Bool
-    
     let currencyFormat: String = Locale.current.currency?.identifier ?? "EUR"
-    let tipPercentages: [Int] = [0, 10, 15, 20, 25]
     
     var totalPerPerson: Double {
-        let tip = checkAmount / 100 * Double(tipPercentage)
+        let tip = checkAmount / 100 * tipPercentage
         return tip / Double(numberOfPeople + 2)
+    }
+    
+    var total: Double {
+        return (checkAmount / 100 * tipPercentage) + checkAmount
     }
     
     var body: some View {
@@ -39,16 +41,17 @@ struct ContentView: View {
                 }
                 
                 Section("How much do you want to tip?") {
-                    Picker("Tip Percentage", selection: $tipPercentage) {
-                        ForEach(tipPercentages, id: \.self) {
-                            Text($0, format: .percent)
-                        }
-                    }
-                    .pickerStyle(.segmented)
+                    Slider(value: $tipPercentage, in: 0...100, step: 1)
+                    Text("\(Int(tipPercentage), format: .percent)")
+                        .font(.largeTitle)
                 }
                 
                 Section("Tip cost per person") {
                     Text(totalPerPerson, format: .currency(code: currencyFormat))
+                }
+                
+                Section("Total include Tip") {
+                    Text(total, format: .currency(code: currencyFormat))
                 }
             }
             .navigationTitle("WeSplit")
