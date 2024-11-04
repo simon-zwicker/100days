@@ -10,7 +10,7 @@ import SwiftUI
 struct MainScreen: View {
     
     // MARK: - Properties
-    @State private var selected: Conversion = .length
+    @State private var selected: Conversion = .time
     
     // MARK: - Body
     var body: some View {
