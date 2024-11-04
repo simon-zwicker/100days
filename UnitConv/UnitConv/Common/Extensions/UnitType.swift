@@ -14,3 +14,19 @@ extension UnitLength {
         return formatter.string(from: self)
     }
 }
+
+extension UnitTemperature {
+    var name: String {
+        let formatter: MeasurementFormatter = .init()
+        formatter.unitStyle = .short
+        return formatter.string(from: self)
+    }
+}
+
+extension UnitVolume {
+    var name: String {
+        let formatter: MeasurementFormatter = .init()
+        formatter.unitStyle = .long
+        return formatter.string(from: self)
+    }
+}
