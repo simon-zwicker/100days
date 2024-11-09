@@ -69,7 +69,7 @@ struct ContentView: View {
                                 .font(.subheadline.weight(.heavy))
                             
                             Text(countries[correctAnswer])
-                                .font(.largeTitle.weight(.semibold))
+                                .bigBlue() // Day 24 Challenge 3.
                         }
                         .foregroundStyle(.secondary)
                         .padding(.bottom, 20)
@@ -78,9 +78,7 @@ struct ContentView: View {
                             Button {
                                 onFlagTapped(number)
                             } label: {
-                                Image(countries[number].lowercased())
-                                    .clipShape(.capsule)
-                                    .shadow(radius: 5)
+                                FlagImage(imageName: countries[number]) // Day 24 Challenge 2.
                             }
                         }
                     }
@@ -118,6 +116,33 @@ struct ContentView: View {
     private func askQuestion() {
         countries.shuffle()
         correctAnswer = Int.random(in: 0...2)
+    }
+}
+
+// Day 24 Challenge 2.
+struct FlagImage: View {
+    var imageName: String
+    
+    var body: some View {
+        Image(imageName.lowercased())
+            .clipShape(.capsule)
+            .shadow(radius: 5)
+    }
+}
+
+// Day 24 Challenge 3.
+struct BigBlueTitle: ViewModifier {
+    func body(content: Content) -> some View {
+        content
+            .font(.system(size: 52.0, weight: .black))
+            .foregroundStyle(.blue)
+    }
+}
+
+// Day 24 Challenge 3.
+extension View {
+    func bigBlue() -> some View {
+        modifier(BigBlueTitle())
     }
 }
 

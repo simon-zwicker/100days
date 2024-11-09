@@ -52,6 +52,7 @@ struct ContentView: View {
                 
                 Section("Total include Tip") {
                     Text(total, format: .currency(code: currencyFormat))
+                        .foregroundStyle(tipPercentage > 0 ? .black: .red) // Day 24 Challenge 1.
                 }
             }
             .navigationTitle("WeSplit")
