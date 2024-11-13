@@ -49,7 +49,11 @@ struct ContentView: View {
                     }
                     
                     Section(header: Text("Täglicher Kaffeekonsum")) {
-                        Stepper("\(coffeeAmount) Tasse\(coffeeAmount > 1 ? "n": "")", value: $coffeeAmount, in: 0...20)
+                        Picker("Kaffetassen", systemImage: "cup.and.saucer.fill", selection: $coffeeAmount) {
+                            ForEach(0...20, id: \.self) { amount in
+                                Text("\(amount)")
+                            }
+                        }
                     }
                 }
                 
@@ -72,14 +76,13 @@ struct ContentView: View {
             .onChange(of: changed) {
                 withAnimation {
                     isPredicted = false
+                    self.caluclateSleepTime()
                 }
             }
             .navigationTitle("BetterRest")
-            .toolbar {
-                Button("Berechnen", action: caluclateSleepTime)
-                    .font(.headline.bold())
-                    .foregroundStyle(.teal)
-            }
+        }
+        .onAppear {
+            self.caluclateSleepTime()
         }
     }
     
