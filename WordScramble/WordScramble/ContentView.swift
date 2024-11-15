@@ -8,14 +8,110 @@
 import SwiftUI
 
 struct ContentView: View {
+    
+    // MARK: - Properties
+    @State private var usedWords: [String] = .init()
+    @State private var rootWord: String = .init()
+    @State private var newWord: String = .init()
+    @State private var errorTitle: String = .init()
+    @State private var errorMessage: String = .init()
+    @State private var showingError: Bool = false
+    
+    // MARK: - Body
     var body: some View {
-        VStack {
-            Image(systemName: "globe")
-                .imageScale(.large)
-                .foregroundStyle(.tint)
-            Text("Hello, world!")
+        NavigationStack {
+            List {
+                Section {
+                    TextField("Enter your word", text: $newWord)
+                        .textInputAutocapitalization(.never)
+                }
+                
+                Section {
+                    ForEach(usedWords, id: \.self) { word in
+                        HStack {
+                            Image(systemName: "\(word.count).circle")
+                            Text(word)
+                        }
+                    }
+                }
+            }
+            .navigationTitle(rootWord)
+            .onSubmit {
+                addNewWord()
+            }
+            .onAppear {
+                startGame()
+            }
+            .alert(errorTitle, isPresented: $showingError) {} message: {
+                Text(errorMessage)
+            }
         }
-        .padding()
+    }
+    
+    // MARK: - Helper Functions
+    private func addNewWord() {
+        let answer = newWord.lowercased().trimmingCharacters(in: .whitespacesAndNewlines)
+        guard answer.count > 0 else { return }
+        
+        guard isOriginal(answer) else {
+            wordError("Word used already", "Be more original")
+            return
+        }
+
+        guard isPossible(answer) else {
+            wordError("Word not possible", "You can't spell that word from '\(rootWord)'!")
+            return
+        }
+
+        guard isReal(answer) else {
+            wordError("Word not recognized", "You can't just make them up, you know!")
+            return
+        }
+        
+        withAnimation {
+            usedWords.insert(answer, at: 0)
+        }
+        
+        newWord = ""
+    }
+    
+    private func startGame() {
+        guard
+            let startWordsUrl = Bundle.main.url(forResource: "start", withExtension: "txt"),
+            let startWords = try? String(contentsOf: startWordsUrl, encoding: .utf8)
+        else { fatalError("Could not load start.txt from bundle.") }
+        
+        let allWords = startWords.components(separatedBy: "\n")
+        rootWord = allWords.randomElement() ?? "silkworm"
+    }
+    
+    private func isOriginal(_ word: String) -> Bool {
+        !usedWords.contains(word)
+    }
+    
+    private func isReal(_ word: String) -> Bool {
+        let checker: UITextChecker = .init()
+        let range: NSRange = .init(location: 0, length: word.utf16.count)
+        let misspelledRange = checker.rangeOfMisspelledWord(in: word, range: range, startingAt: 0, wrap: false, language: "en")
+        
+        return misspelledRange.location == NSNotFound
+    }
+    
+    private func isPossible(_ word: String) -> Bool {
+        var tempWord = rootWord
+        
+        for char in word {
+            guard let position = tempWord.firstIndex(of: char) else { return false }
+            tempWord.remove(at: position)
+        }
+        
+        return true
+    }
+    
+    private func wordError(_ title: String, _ message: String) {
+        errorTitle = title
+        errorMessage = message
+        showingError = true
     }
 }
 
