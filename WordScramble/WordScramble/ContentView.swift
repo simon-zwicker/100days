@@ -16,14 +16,26 @@ struct ContentView: View {
     @State private var errorTitle: String = .init()
     @State private var errorMessage: String = .init()
     @State private var showingError: Bool = false
+    @State private var showWordError: Bool = false
+    @State private var score: Int = 0
     
     // MARK: - Body
     var body: some View {
         NavigationStack {
             List {
                 Section {
+                    Text("Score: \(score)")
+                        .font(.subheadline.bold())
+                }
+                
+                Section {
                     TextField("Enter your word", text: $newWord)
                         .textInputAutocapitalization(.never)
+                    if showWordError {
+                        Text("Word should be longer than 3 Characters")
+                            .font(.footnote)
+                            .foregroundStyle(.red)
+                    }
                 }
                 
                 Section {
@@ -37,13 +49,26 @@ struct ContentView: View {
             }
             .navigationTitle(rootWord)
             .onSubmit {
-                addNewWord()
+                if newWord.count > 3 {
+                    showWordError = false
+                    addNewWord()
+                } else {
+                    newWord = ""
+                    showWordError = true
+                }
             }
             .onAppear {
                 startGame()
             }
             .alert(errorTitle, isPresented: $showingError) {} message: {
                 Text(errorMessage)
+            }
+            .toolbar {
+                ToolbarItem(placement: .bottomBar) {
+                    Button("Give me a other word") {
+                        startGame()
+                    }
+                }
             }
         }
     }
@@ -71,7 +96,7 @@ struct ContentView: View {
         withAnimation {
             usedWords.insert(answer, at: 0)
         }
-        
+        score += newWord.count
         newWord = ""
     }
     
@@ -83,6 +108,7 @@ struct ContentView: View {
         
         let allWords = startWords.components(separatedBy: "\n")
         rootWord = allWords.randomElement() ?? "silkworm"
+        usedWords = .init()
     }
     
     private func isOriginal(_ word: String) -> Bool {
