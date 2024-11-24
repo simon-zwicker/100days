@@ -9,9 +9,15 @@ import SwiftUI
 
 @main
 struct iExpenseApp: App {
+    
+    // MARK: - Properties
+    @State private var expenses: Expenses = .init()
+    
+    // MARK: - Body
     var body: some Scene {
         WindowGroup {
             ContentView()
+                .environment(expenses)
         }
     }
 }

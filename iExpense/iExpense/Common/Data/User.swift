@@ -11,4 +11,5 @@ import Foundation
 class User: Codable {
     var name = "Simon"
     var surname = "Zwicker"
+    var curreny = "EUR"
 }
