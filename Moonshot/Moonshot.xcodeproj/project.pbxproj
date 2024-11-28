@@ -6,10 +6,6 @@
 	objectVersion = 77;
 	objects = {
 
-/* Begin PBXBuildFile section */
-		FCB22B212CF708A000DAC22E /* Octopus in Frameworks */ = {isa = PBXBuildFile; productRef = FCB22B202CF708A000DAC22E /* Octopus */; };
-/* End PBXBuildFile section */
-
 /* Begin PBXFileReference section */
 		FCF48AB12CF4664C00443B22 /* Moonshot.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Moonshot.app; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
@@ -27,7 +23,6 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				FCB22B212CF708A000DAC22E /* Octopus in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -70,7 +65,6 @@
 			);
 			name = Moonshot;
 			packageProductDependencies = (
-				FCB22B202CF708A000DAC22E /* Octopus */,
 			);
 			productName = Moonshot;
 			productReference = FCF48AB12CF4664C00443B22 /* Moonshot.app */;
@@ -101,7 +95,6 @@
 			mainGroup = FCF48AA82CF4664C00443B22;
 			minimizedProjectReferenceProxies = 1;
 			packageReferences = (
-				FCB22B1F2CF708A000DAC22E /* XCRemoteSwiftPackageReference "Octopus" */,
 			);
 			preferredProjectObjectVersion = 77;
 			productRefGroup = FCF48AB22CF4664C00443B22 /* Products */;
@@ -333,25 +326,6 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
-
-/* Begin XCRemoteSwiftPackageReference section */
-		FCB22B1F2CF708A000DAC22E /* XCRemoteSwiftPackageReference "Octopus" */ = {
-			isa = XCRemoteSwiftPackageReference;
-			repositoryURL = "https://github.com/simon-zwicker/Octopus";
-			requirement = {
-				branch = main;
-				kind = branch;
-			};
-		};
-/* End XCRemoteSwiftPackageReference section */
-
-/* Begin XCSwiftPackageProductDependency section */
-		FCB22B202CF708A000DAC22E /* Octopus */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = FCB22B1F2CF708A000DAC22E /* XCRemoteSwiftPackageReference "Octopus" */;
-			productName = Octopus;
-		};
-/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = FCF48AA92CF4664C00443B22 /* Project object */;
 }
