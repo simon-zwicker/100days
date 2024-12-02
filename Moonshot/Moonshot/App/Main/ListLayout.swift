@@ -15,9 +15,7 @@ struct ListLayout: View {
     var body: some View {
         List {
             ForEach(missions, id: \.id) { mission in
-                NavigationLink {
-                    MissionView(mission: mission, astronauts: astronauts)
-                } label: {
+                NavigationLink(value: mission) {
                     HStack(spacing: 30.0) {
                         Image(mission.image)
                             .resizable()

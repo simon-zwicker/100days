@@ -16,6 +16,19 @@ struct ContentView: View {
             .navigationDestination(for: Int.self) { selection in
                 DetailView(number: selection)
             }
+            .navigationTitle("Test")
+            .navigationBarTitleDisplayMode(.inline)
+            .toolbar {
+                ToolbarItemGroup(placement: .topBarLeading) {
+                    Button("TapMe") {
+                        
+                    }
+                    
+                    Button("TapMe2") {
+                        
+                    }
+                }
+            }
         }
     }
 }

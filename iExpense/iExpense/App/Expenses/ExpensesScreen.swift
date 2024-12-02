@@ -11,7 +11,6 @@ struct ExpensesScreen: View {
     
     // MARK: - Properties
     @Environment(\.expenses) private var expenses
-    @State private var showAddExpense: Bool = false
     
     // MARK: - Body
     var body: some View {
@@ -39,12 +38,9 @@ struct ExpensesScreen: View {
             }
         }
         .toolbar {
-            Button("Add Expense", systemImage: "plus") {
-                showAddExpense.toggle()
+            NavigationLink("Add Expense") {
+                ExpenseAdd()
             }
-        }
-        .sheet(isPresented: $showAddExpense) {
-            ExpenseAdd()
         }
     }
     
